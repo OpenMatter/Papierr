@@ -19,10 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
 
-public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener
+public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
     String[] mTitles, mContents, mTimes;
     Boolean[] mStars;
@@ -92,7 +93,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         mAdapter = new CustomAdapter(this, R.layout.list_item, mTitles, mContents, mTimes, mStars);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
-        mListView.setTextFilterEnabled(true);
+        mListView.setOnItemLongClickListener(this);
 
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab);
         button.attachToListView(mListView);
@@ -113,6 +114,28 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         intent.putExtra("text", mContents[position]);
         intent.putExtra("star", mStars[position].booleanValue());
         startActivityForResult(intent, EDIT_CODE);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+        new MaterialDialog.Builder(MainActivity.this)
+                .title(getResources().getString(R.string.delete_note))
+                .content(getResources().getString(R.string.delete_desc))
+                .positiveText(getResources().getString(R.string.confirm))
+                .positiveColor(0xff03a9f4)
+                .negativeText(getResources().getString(R.string.cancel))
+                .negativeColor(0xff03a9f4)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        deleteFile(mTitles[position]);
+                        FileHandler.removeStar(MainActivity.this, mTitles[position]);
+                        recreate();
+                    }
+                })
+                .show();
+
+        return true;
     }
 
     @Override
