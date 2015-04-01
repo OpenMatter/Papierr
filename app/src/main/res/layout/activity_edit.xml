@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="io.geeteshk.papierr.EditActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/editbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@android:color/transparent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/share_content_desc"
+                    android:background="?attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_share" />
+
+                <ImageButton
+                    android:id="@+id/star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="@string/star_content_desc"
+                    android:background="?attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_toggle_star_outline" />
+
+                <ImageButton
+                    android:id="@+id/delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="@string/delete_content_desc"
+                    android:background="?attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_delete" />
+
+            </LinearLayout>
+
+            <io.geeteshk.papierr.FloatLabelLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:floatLabelTextAppearance="@style/TextAppearance.Papierr.FloatLabel">
+
+                <EditText
+                    android:id="@+id/edit_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="32sp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:hint="@string/edit_hint" />
+
+            </io.geeteshk.papierr.FloatLabelLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/editbar"
+        android:padding="16dp"
+        android:gravity="top"
+        android:inputType="text"
+        android:textColor="@android:color/black"
+        android:background="@android:color/transparent" />
+
+    <com.melnykov.fab.FloatingActionButton
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/edit_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_content_up"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_colorPressed="#0288D1"
+        fab:fab_colorRipple="#0288D1"
+        fab:fab_shadow="false" />
+
+</RelativeLayout>

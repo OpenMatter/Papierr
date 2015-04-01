@@ -1,0 +1,23 @@
+<resources>
+
+    <style name="Papierr" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">#FF9800</item>
+        <item name="colorPrimaryDark">#F57C00</item>
+        <item name="colorAccent">#03A9F4</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="Papierr.Settings" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#FF9800</item>
+        <item name="colorPrimaryDark">#F57C00</item>
+        <item name="colorAccent">#03A9F4</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="TextAppearance.Papierr.FloatLabel" parent="android:TextAppearance.Small">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>
