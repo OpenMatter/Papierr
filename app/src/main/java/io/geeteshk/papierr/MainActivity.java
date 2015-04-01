@@ -22,22 +22,38 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
-
+/**
+ * {@link android.app.Activity} containing a {@link android.widget.ListView} to display all notes created by user.
+ */
 public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
-    String[] mTitles, mContents, mTimes;
-    Boolean[] mStars;
-    CardView mCardView;
     Button mGotIt;
-    ImageButton mSettings;
+    CardView mCardView;
     CustomAdapter mAdapter;
+    ImageButton mSettings;
     LinearLayout mLayout;
     ListView mListView;
     Toolbar mToolbar;
 
+    /**
+     * Data required for each note.
+     */
+    Boolean[] mStars;
+    String[] mTitles, mContents, mTimes;
+
+    /**
+     * Intent code to represent a note being edited or created.
+     */
     private static final int EDIT_CODE = 21;
+
+    /**
+     * Intent code to represent settings being changed.
+     */
     private static final int SETTINGS_CODE = 22;
 
+    /**
+     * Called when the activity is created.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +123,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         });
     }
 
+    /**
+     * Called when a list item is pressed. Allows user to edit note.
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(MainActivity.this, EditActivity.class);
@@ -116,6 +135,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         startActivityForResult(intent, EDIT_CODE);
     }
 
+    /**
+     * Called when a list item is long pressed. Allows user to delete note.
+     */
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
         new MaterialDialog.Builder(MainActivity.this)
@@ -138,6 +160,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         return true;
     }
 
+    /**
+     * Called when returning from a different activity.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -153,6 +178,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         }
     }
 
+    /**
+     * Adapter for the list of notes.
+     */
     private class CustomAdapter extends ArrayAdapter<String>
     {
         int mResource;

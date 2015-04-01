@@ -14,16 +14,29 @@ import android.widget.ImageButton;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
-
+/**
+ * {@link android.app.Activity} used when editing or creating a note.
+ */
 public class EditActivity extends ActionBarActivity {
 
+    /**
+     * {@link android.content.Context} used for different file operations.
+     */
     final Context mContext = this;
+
     EditText mTitle, mText;
     ImageButton mShare, mStar, mDelete;
-    boolean mStarBool, mDeleteBool = false, mActionBool = false;
-    Toolbar mToolbar;
     String mName;
+    Toolbar mToolbar;
 
+    /**
+     * Different booleans used within the activity.
+     */
+    boolean mStarBool, mDeleteBool = false, mActionBool = false;
+
+    /**
+     * Called when the activity is created.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +64,7 @@ public class EditActivity extends ActionBarActivity {
                 startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_note)));
             }
         });
+
         mStar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +79,7 @@ public class EditActivity extends ActionBarActivity {
                 }
             }
         });
+
         mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,6 +168,9 @@ public class EditActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Called when the activity is paused.
+     */
     @Override
     protected void onPause() {
         super.onPause();

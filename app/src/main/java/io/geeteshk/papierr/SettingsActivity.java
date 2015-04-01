@@ -7,8 +7,14 @@ import android.support.v7.widget.Toolbar;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+/**
+ * {@link android.app.Activity} used to edit settings within the app.
+ */
 public class SettingsActivity extends ActionBarActivity {
 
+    /**
+     * Called when the activity is created.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

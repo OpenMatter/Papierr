@@ -14,8 +14,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Helper to class to handle all file based operations.
+ */
 public class FileHandler {
 
+    /**
+     * Method to obtain all the names of the notes.
+     *
+     * @param context used to get files in data directory
+     * @return an array containing all the names of the notes
+     */
     public static String[] getTitles(Context context) {
         String[] titles = context.fileList();
         for(int i = 0; i < titles.length / 2; i++)
@@ -28,6 +37,12 @@ public class FileHandler {
         return titles;
     }
 
+    /**
+     * Method to obtain all the contents of the notes.
+     *
+     * @param context used to get files in data directory
+     * @return an array containing all the contents of the notes
+     */
     public static String[] getContents(Context context) {
         List<String> contents = new ArrayList<>();
         String[] titles = getTitles(context);
@@ -39,6 +54,13 @@ public class FileHandler {
         return contents.toArray(new String[contents.size()]);
     }
 
+    /**
+     * Method to read the contents of a text file.
+     *
+     * @param context used to get file from the data directory
+     * @param fileName name of the file to read from
+     * @return contents of the file read from
+     */
     private static String readFromFile(Context context, String fileName) {
 
         String ret = "";
@@ -66,6 +88,13 @@ public class FileHandler {
         return ret;
     }
 
+    /**
+     * Method to write to the contents of a text file.
+     *
+     * @param context used to get file from the data directory
+     * @param fileName name of the file to write to
+     * @param data that needs to be written
+     */
     public static void writeToFile(Context context, String fileName, String data) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE));
@@ -76,16 +105,35 @@ public class FileHandler {
         }
     }
 
+    /**
+     * Method to set a preference to show whether a note  has been starred.
+     *
+     * @param context used to get preferences
+     * @param name name of the note that has been starred
+     * @param star boolean to tell if star has been set or not
+     */
     public static void setStar(Context context, String name, boolean star) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("io.geeteshk.papier", Context.MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(name + "_star", star).apply();
     }
 
+    /**
+     * Method to remove star after file has been deleted.
+     *
+     * @param context used to get preferences
+     * @param name name of the note that has been starred
+     */
     public static void removeStar(Context context, String name) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("io.geeteshk.papier", Context.MODE_PRIVATE);
         sharedPreferences.edit().remove(name + "_star").apply();
     }
 
+    /**
+     * Method to get which note is starred.
+     *
+     * @param context used to get preferences
+     * @return an array containing which notes have stars
+     */
     public static Boolean[] getStars(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("io.geeteshk.papier", Context.MODE_PRIVATE);
         List<Boolean> stars = new ArrayList<>();
@@ -98,6 +146,12 @@ public class FileHandler {
         return stars.toArray(new Boolean[stars.size()]);
     }
 
+    /**
+     * Method to get the time between now and the last edit.
+     *
+     * @param context used to get file from the data directory
+     * @return an array containing all the last modified times
+     */
     public static String[] getTimes(Context context) {
         String[] titles = getTitles(context);
         File[] files = new File[titles.length];
@@ -111,6 +165,12 @@ public class FileHandler {
         return times;
     }
 
+    /**
+     * Method to give the difference between now and the last edited date.
+     *
+     * @param creation date to compare to
+     * @return difference between the two dates
+     */
     private static String getDifference(Date creation) {
         String difference;
         Calendar current = Calendar.getInstance();
