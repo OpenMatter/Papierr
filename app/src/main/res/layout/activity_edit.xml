@@ -75,6 +75,7 @@
                     android:textSize="32sp"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:textCursorDrawable="@null"
                     android:hint="@string/edit_hint" />
 
             </io.geeteshk.papierr.FloatLabelLayout>
@@ -91,6 +92,7 @@
         android:padding="16dp"
         android:gravity="top"
         android:inputType="text"
+        android:textCursorDrawable="@null"
         android:textColor="@android:color/black"
         android:background="@android:color/transparent" />
 

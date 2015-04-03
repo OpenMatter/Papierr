@@ -2,6 +2,7 @@ package io.geeteshk.papierr;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -54,6 +55,7 @@ public class EditActivity extends ActionBarActivity {
         mShare = (ImageButton) findViewById(R.id.share);
         mStar = (ImageButton) findViewById(R.id.star);
         mDelete = (ImageButton) findViewById(R.id.delete);
+        mTitle.getBackground().setColorFilter(0xffffffff, PorterDuff.Mode.SRC_IN);
         mShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,6 +167,11 @@ public class EditActivity extends ActionBarActivity {
 
                 }
             });
+        }
+
+        if (getSharedPreferences("io.geeteshk.papierr", MODE_PRIVATE).getBoolean("dark_scheme", false)) {
+            mText.setBackgroundColor(0xff212121);
+            mText.setTextColor(0xffffffff);
         }
     }
 

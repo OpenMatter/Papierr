@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="star">Star</string>
     <string name="reminder">Set a reminder?</string>
-    <string name="pref_title_autosave">Enable Automatic Saving</string>
+    <string name="pref_title_autosave">Automatic Saving</string>
     <string name="pref_description_autosave">Save file as you type instead of saving when editing has finished. May consume some RAM.</string>
     <string name="delete_note">Delete note?</string>
     <string name="delete_desc">Would you like to permanently remove this note from Papier?</string>
@@ -20,5 +20,7 @@
     <string name="thank_you">Thank you for installing Papier! Press the plus icon at bottom right to create a new note.</string>
     <string name="got_it">GOT IT</string>
     <string name="welcome">Welcome!</string>
+    <string name="pref_title_dark">Dark Colour Scheme</string>
+    <string name="pref_description_dark">Give a little rest to the eyes by applying a dark theme. Also recommended on AMOLED screens.</string>
 
 </resources>

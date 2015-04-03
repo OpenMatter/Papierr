@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -92,7 +93,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             }
         });
 
-        if (getSharedPreferences("io.geeteshk.papierr", MODE_PRIVATE).getBoolean("got_it", false)) {
+        if (getSharedPreferences("io.geeteshk.papierr", MODE_PRIVATE).getBoolean("got_it", true)) {
             mLayout.removeView(mCardView);
         }
 
@@ -121,6 +122,10 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 startActivityForResult(intent, EDIT_CODE);
             }
         });
+
+        if (getSharedPreferences("io.geeteshk.papierr", MODE_PRIVATE).getBoolean("dark_scheme", false)) {
+            mLayout.setBackgroundColor(0xff212121);
+        }
     }
 
     /**
@@ -170,11 +175,6 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             case EDIT_CODE:
                 recreate();
                 break;
-            case SETTINGS_CODE:
-                if (resultCode == RESULT_OK) {
-                    getSharedPreferences("io.geeteshk.papierr", MODE_PRIVATE).edit().putBoolean("enable_autosave", data.getBooleanExtra("save", false)).commit();
-                }
-                break;
         }
     }
 
@@ -213,6 +213,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 rootView = convertView;
             }
 
+            RelativeLayout layout = (RelativeLayout) rootView.findViewById(R.id.list_root);
             TextView title = (TextView) rootView.findViewById(R.id.item_title);
             TextView desc = (TextView) rootView.findViewById(R.id.item_desc);
             ImageView star = (ImageView) rootView.findViewById(R.id.item_star);
@@ -224,6 +225,11 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
             if (mStars[position]) {
                 star.setImageResource(R.drawable.ic_toggle_star_grey);
+            }
+
+            if (getSharedPreferences("io.geeteshk.papierr", MODE_PRIVATE).getBoolean("dark_scheme", false)) {
+                layout.setBackgroundColor(0xff212121);
+                title.setTextColor(0xffffffff);
             }
 
             return rootView;
