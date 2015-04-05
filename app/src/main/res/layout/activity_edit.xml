@@ -91,7 +91,7 @@
         android:layout_below="@+id/editbar"
         android:padding="16dp"
         android:gravity="top"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:textCursorDrawable="@null"
         android:textColor="@android:color/black"
         android:background="@android:color/transparent" />
