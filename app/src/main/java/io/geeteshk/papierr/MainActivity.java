@@ -4,6 +4,10 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -21,31 +25,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.astuetz.PagerSlidingTabStrip;
 import com.melnykov.fab.FloatingActionButton;
 
 /**
  * {@link android.app.Activity} containing a {@link android.widget.ListView} to display all notes created by user.
  */
-public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
+public class MainActivity extends ActionBarActivity
 {
-    Button mGotIt;
-    CardView mCardView;
-    CustomAdapter mAdapter;
     ImageButton mSettings;
-    LinearLayout mLayout;
-    ListView mListView;
+    PagerSlidingTabStrip mStrip;
     Toolbar mToolbar;
-
-    /**
-     * Data required for each note.
-     */
-    Boolean[] mStars;
-    String[] mTitles, mContents, mTimes;
-
-    /**
-     * Intent code to represent a note being edited or created.
-     */
-    private static final int EDIT_CODE = 21;
+    ViewPager mPager;
 
     /**
      * Intent code to represent settings being changed.
@@ -60,42 +51,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTitles = FileHandler.getTitles(this);
-        mContents = FileHandler.getContents(this);
-        mStars = FileHandler.getStars(this);
-        mTimes = FileHandler.getTimes(this);
-
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(getResources().getString(R.string.app_name));
-
-        mLayout = (LinearLayout) findViewById(R.id.layout);
-        mCardView = (CardView) findViewById(R.id.cardview);
-        mGotIt = (Button) findViewById(R.id.got_it);
-        mGotIt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCardView.animate().scaleY(0.01f).translationY(-200f).alpha(0).setListener(new Animator.AnimatorListener() {
-                    @Override public void onAnimationStart(Animator animation) {}
-                    @Override public void onAnimationRepeat(Animator animation) {}
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mLayout.removeView(mCardView);
-                        getSharedPreferences("io.geeteshk.papierr", MODE_PRIVATE).edit().putBoolean("got_it", true).commit();
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-                        mLayout.removeView(mCardView);
-                        getSharedPreferences("io.geeteshk.papierr", MODE_PRIVATE).edit().putBoolean("got_it", true).commit();
-                    }
-                });
-            }
-        });
-
-        if (getSharedPreferences("io.geeteshk.papierr", MODE_PRIVATE).getBoolean("got_it", true)) {
-            mLayout.removeView(mCardView);
-        }
 
         mSettings = (ImageButton) findViewById(R.id.settings);
         mSettings.setOnClickListener(new View.OnClickListener() {
@@ -106,63 +63,11 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             }
         });
 
-        mListView = (ListView) findViewById(R.id.list_view);
-        mAdapter = new CustomAdapter(this, R.layout.list_item, mTitles, mContents, mTimes, mStars);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(this);
-        mListView.setOnItemLongClickListener(this);
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager.setAdapter(new SlideAdapter(getSupportFragmentManager()));
 
-        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab);
-        button.attachToListView(mListView);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EditActivity.class);
-                intent.putExtra("position", mTitles.length);
-                startActivityForResult(intent, EDIT_CODE);
-            }
-        });
-
-        if (getSharedPreferences("io.geeteshk.papierr", MODE_PRIVATE).getBoolean("dark_scheme", false)) {
-            mLayout.setBackgroundColor(0xff212121);
-        }
-    }
-
-    /**
-     * Called when a list item is pressed. Allows user to edit note.
-     */
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(MainActivity.this, EditActivity.class);
-        intent.putExtra("title", mTitles[position]);
-        intent.putExtra("text", mContents[position]);
-        intent.putExtra("star", mStars[position].booleanValue());
-        startActivityForResult(intent, EDIT_CODE);
-    }
-
-    /**
-     * Called when a list item is long pressed. Allows user to delete note.
-     */
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-        new MaterialDialog.Builder(MainActivity.this)
-                .title(getResources().getString(R.string.delete_note))
-                .content(getResources().getString(R.string.delete_desc))
-                .positiveText(getResources().getString(R.string.confirm))
-                .positiveColor(0xff03a9f4)
-                .negativeText(getResources().getString(R.string.cancel))
-                .negativeColor(0xff03a9f4)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        deleteFile(mTitles[position]);
-                        FileHandler.removeStar(MainActivity.this, mTitles[position]);
-                        recreate();
-                    }
-                })
-                .show();
-
-        return true;
+        mStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        mStrip.setViewPager(mPager);
     }
 
     /**
@@ -171,68 +76,42 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case EDIT_CODE:
-                recreate();
-                break;
-        }
+        recreate();
     }
 
-    /**
-     * Adapter for the list of notes.
-     */
-    private class CustomAdapter extends ArrayAdapter<String>
-    {
-        int mResource;
-        Context mContext;
-        String[] mTitles, mContents, mTimes;
-        Boolean[] mStars;
+    private class SlideAdapter extends FragmentStatePagerAdapter {
 
-        public CustomAdapter(Context context, int resource, String[] titles, String[] contents, String[] times, Boolean[] stars) {
-            this(context, resource, titles);
-            this.mContents = contents;
-            this.mTimes = times;
-            this.mStars = stars;
-        }
-
-        public CustomAdapter(Context context, int resource, String[] titles) {
-            super(context, resource, titles);
-            this.mContext = context;
-            this.mResource = resource;
-            this.mTitles = titles;
+        public SlideAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View rootView;
-
-            if (convertView == null) {
-                rootView = inflater.inflate(mResource, parent, false);
-            } else {
-                rootView = convertView;
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new NotesFragment();
+                case 1:
+                    return new ListsFragment();
+                default:
+                    return null;
             }
+        }
 
-            RelativeLayout layout = (RelativeLayout) rootView.findViewById(R.id.list_root);
-            TextView title = (TextView) rootView.findViewById(R.id.item_title);
-            TextView desc = (TextView) rootView.findViewById(R.id.item_desc);
-            ImageView star = (ImageView) rootView.findViewById(R.id.item_star);
-            TextView time = (TextView) rootView.findViewById(R.id.item_time);
-
-            title.setText(mTitles[position]);
-            desc.setText(mContents[position]);
-            time.setText(mTimes[position]);
-
-            if (mStars[position]) {
-                star.setImageResource(R.drawable.ic_toggle_star_grey);
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return getString(R.string.notes_tab);
+                case 1:
+                    return getString(R.string.lists_tab);
+                default:
+                    return super.getPageTitle(position);
             }
+        }
 
-            if (getSharedPreferences("io.geeteshk.papierr", MODE_PRIVATE).getBoolean("dark_scheme", false)) {
-                layout.setBackgroundColor(0xff212121);
-                title.setTextColor(0xffffffff);
-            }
-
-            return rootView;
+        @Override
+        public int getCount() {
+            return 2;
         }
     }
 }

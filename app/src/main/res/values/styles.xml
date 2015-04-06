@@ -1,15 +1,15 @@
 <resources>
 
     <style name="Papierr" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">#FF9800</item>
-        <item name="colorPrimaryDark">#F57C00</item>
+        <item name="colorPrimary">#FF5722</item>
+        <item name="colorPrimaryDark">#E64A19</item>
         <item name="colorAccent">#03A9F4</item>
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
     <style name="Papierr.Settings" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#FF9800</item>
-        <item name="colorPrimaryDark">#F57C00</item>
+        <item name="colorPrimary">#FF5722</item>
+        <item name="colorPrimaryDark">#E64A19</item>
         <item name="colorAccent">#03A9F4</item>
         <item name="android:windowBackground">@android:color/white</item>
     </style>

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="#fafafa"
     tools:context="io.geeteshk.papierr.EditActivity">
 
     <android.support.v7.widget.Toolbar
@@ -84,11 +84,18 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <View
+        android:id="@+id/edit_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/editbar"
+        android:background="@drawable/toolbar_shadow" />
+
     <EditText
         android:id="@+id/edit_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/editbar"
+        android:layout_below="@+id/edit_shadow"
         android:padding="16dp"
         android:gravity="top"
         android:inputType="textMultiLine"
@@ -108,7 +115,6 @@
         android:src="@drawable/ic_content_up"
         fab:fab_colorNormal="?attr/colorAccent"
         fab:fab_colorPressed="#0288D1"
-        fab:fab_colorRipple="#0288D1"
-        fab:fab_shadow="false" />
+        fab:fab_colorRipple="#0288D1" />
 
 </RelativeLayout>

@@ -24,7 +24,10 @@ public class SettingsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_settings);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.settings_bar);
+        toolbar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back);
+        setSupportActionBar(toolbar);
         toolbar.setTitle(getResources().getString(R.string.action_settings));
+        toolbar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back);
 
         final LinearLayout mSettingsLayout = (LinearLayout) findViewById(R.id.settings_layout);
         final TextView autoTitle = (TextView) findViewById(R.id.auto_title);

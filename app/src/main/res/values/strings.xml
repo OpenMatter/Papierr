@@ -22,5 +22,7 @@
     <string name="welcome">Welcome!</string>
     <string name="pref_title_dark">Dark Colour Scheme</string>
     <string name="pref_description_dark">Give a little rest to the eyes by applying a dark theme. Also recommended on AMOLED screens.</string>
+    <string name="notes_tab">Notes</string>
+    <string name="lists_tab">Lists</string>
 
 </resources>
